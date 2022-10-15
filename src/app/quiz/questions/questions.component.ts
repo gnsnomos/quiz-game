@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { QuestionService } from '../service/question.service';
 import { Question } from '../service/questions.model';
 
@@ -14,7 +13,7 @@ export class QuestionsComponent implements OnInit {
     questions: Question[];
     answers: string[];
     userAnswers: string[];
-    gameIsOver$ = new BehaviorSubject<boolean>(false);
+    gameIsOver = false;
     correctAnswers = 0;
 
     constructor(private questionService: QuestionService) {
@@ -34,7 +33,7 @@ export class QuestionsComponent implements OnInit {
         this.nextQuestion();
     }
 
-    nextQuestion(): void {
+    private nextQuestion(): void {
         this.currentQuestionNumber++;
         if (this.currentQuestionNumber < this.questions.length) {
             this.currentQuestion = this.questions[this.currentQuestionNumber];
@@ -45,7 +44,7 @@ export class QuestionsComponent implements OnInit {
     }
 
     private gameOver(): void {
-        this.gameIsOver$.next(true);
+        this.gameIsOver = true;
         this.countCorrectAnswers();
     }
 
@@ -55,7 +54,7 @@ export class QuestionsComponent implements OnInit {
 
     private resetGame(): void {
         this.currentQuestionNumber = -1;
-        this.gameIsOver$.next(false);
+        this.gameIsOver = false;
         this.userAnswers = [];
     }
 }

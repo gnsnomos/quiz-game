@@ -3,7 +3,7 @@
 </div>
 
 <ng-template #quizBoard>
-    <div class="quiz-board" *ngIf="!(gameIsOver$ | async) else gameOver">
+    <div class="quiz-board" *ngIf="!gameIsOver else gameOver">
         <div class="question" [innerHTML]="currentQuestion?.question"></div>
         <div class="answers">
             <gs-answer *ngFor="let answer of answers" [answer]="answer" (onAnswerClicked)="answerClicked($event)">
