@@ -1,1 +1,20 @@
-test
+<div class="start-new-quiz" *ngIf="currentQuestionNumber < 0 else quizBoard">
+    <button (click)="startNewQuiz()">Start new quiz</button>
+</div>
+
+<ng-template #quizBoard>
+    <div class="quiz-board" *ngIf="!(gameIsOver$ | async) else gameOver">
+        <div class="question" [innerHTML]="currentQuestion?.question"></div>
+        <div class="answers">
+            <gs-answer *ngFor="let answer of answers" [answer]="answer" (onAnswerClicked)="answerClicked($event)">
+            </gs-answer>
+        </div>
+    </div>
+
+    <ng-template #gameOver>
+        <h2>Game is over</h2>
+        <h4>Your score {{correctAnswers}}/ {{ questions.length }} </h4>
+
+        <button (click)="startNewQuiz()">Start new quiz</button>
+    </ng-template>
+</ng-template>

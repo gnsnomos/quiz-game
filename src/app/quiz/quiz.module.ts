@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { QuestionService } from './service/question.service';
 import { QuestionsComponent } from './questions/questions.component';
+import { AnswerComponent } from './answers/answer.component';
 
 @NgModule({
     imports: [
@@ -11,8 +12,12 @@ import { QuestionsComponent } from './questions/questions.component';
         HttpClientModule,
     ],
     providers: [QuestionService],
-    declarations: [QuestionsComponent],
+    declarations: [
+        QuestionsComponent,
+        AnswerComponent
+    ],
     bootstrap: [],
-    exports: [QuestionsComponent]
+    exports: [QuestionsComponent],
+    entryComponents: [AnswerComponent]
 })
 export class QuizModule { }

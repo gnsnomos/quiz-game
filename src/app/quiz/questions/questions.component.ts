@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { QuestionService } from '../service/question.service';
+import { Question } from '../service/questions.model';
 
 @Component({
     selector: 'gs-questions',
@@ -7,10 +9,53 @@ import { QuestionService } from '../service/question.service';
 })
 export class QuestionsComponent implements OnInit {
 
+    currentQuestionNumber = -1;
+    currentQuestion!: Question;
+    questions: Question[];
+    answers: string[];
+    userAnswers: string[];
+    gameIsOver$ = new BehaviorSubject<boolean>(false);
+    correctAnswers = 0;
+
     constructor(private questionService: QuestionService) {
     }
 
     ngOnInit(): void {
-        this.questionService.getQuestions().subscribe((response) => console.log(response));
+        this.questionService.getQuestions().subscribe((questions: Question[]) => this.questions = questions);
+    }
+
+    startNewQuiz(): void {
+        this.resetGame();
+        this.nextQuestion();
+    }
+
+    answerClicked(selectedAnswer: string): void {
+        this.userAnswers.push(selectedAnswer);
+        this.nextQuestion();
+    }
+
+    nextQuestion(): void {
+        this.currentQuestionNumber++;
+        if (this.currentQuestionNumber < this.questions.length) {
+            this.currentQuestion = this.questions[this.currentQuestionNumber];
+            this.answers = [...this.currentQuestion.incorrect_answers, this.currentQuestion.correct_answer];
+        } else {
+            this.gameOver();
+        }
+    }
+
+    private gameOver(): void {
+        this.gameIsOver$.next(true);
+        this.countCorrectAnswers();
+    }
+
+    private countCorrectAnswers(): void {
+        this.correctAnswers = this.userAnswers.filter((userAnser: string, index: number) => this.questions[index].correct_answer === userAnser).length;
+    }
+
+    private resetGame(): void {
+        this.currentQuestionNumber = -1;
+        this.gameIsOver$.next(false);
+        this.userAnswers = [];
     }
 }
