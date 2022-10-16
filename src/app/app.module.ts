@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { QuizModule } from './quiz/quiz.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { QuizModule } from './quiz/quiz.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    QuizModule
+    QuizModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

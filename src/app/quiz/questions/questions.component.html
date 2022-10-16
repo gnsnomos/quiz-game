@@ -1,20 +1,35 @@
 <div class="start-new-quiz" *ngIf="currentQuestionNumber < 0 else quizBoard">
-    <button (click)="startNewQuiz()">Start new quiz</button>
+    <mat-spinner *ngIf="(!questions || questions?.length === 0) else newGameBtn" class="spinner"></mat-spinner>
 </div>
 
 <ng-template #quizBoard>
     <div class="quiz-board" *ngIf="!gameIsOver else gameOver">
-        <div class="question" [innerHTML]="currentQuestion?.question"></div>
-        <div class="answers">
-            <gs-answer *ngFor="let answer of answers" [answer]="answer" (onAnswerClicked)="answerClicked($event)">
-            </gs-answer>
+        <div class="question">
+            <h2 [innerHTML]="(currentQuestionNumber + 1) + '. ' + currentQuestion?.question"></h2>
         </div>
+        <mat-grid-list cols="2" rowHeight="4:1">
+            <mat-grid-tile *ngFor="let answer of answers">
+                <gs-answer [answer]="answer" (onAnswerClicked)="answerClicked($event)">
+                </gs-answer>
+            </mat-grid-tile>
+        </mat-grid-list>
+
+        <mat-progress-bar class="example-margin" [color]="color" [mode]="mode"
+            [value]="(currentQuestionNumber + 1) * 10" [bufferValue]="bufferValue">
+        </mat-progress-bar>
     </div>
 
     <ng-template #gameOver>
-        <h2>Game is over</h2>
-        <h4>Your score {{correctAnswers}}/ {{ questions.length }} </h4>
+        <div class="game-over">
+            <h2>Game is over</h2>
+            <h4>Your score {{correctAnswers}}/ {{ questions.length }} </h4>
 
-        <button (click)="startNewQuiz()">Start new quiz</button>
+            <ng-template [ngTemplateOutlet]="newGameBtn"></ng-template>
+        </div>
     </ng-template>
+</ng-template>
+
+<ng-template #newGameBtn>
+    <button mat-stroked-button color="primary" class="new-game-btn" (click)="startNewQuiz()">Start new
+        quiz</button>
 </ng-template>

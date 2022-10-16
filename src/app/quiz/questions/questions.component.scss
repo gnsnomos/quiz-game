@@ -1,0 +1,28 @@
+.question {
+    display: flex;
+    h2 {
+        text-align: center;
+        max-height: 100px;
+        height: 60px;
+        width: 100%;
+    }
+}
+
+.start-new-quiz {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 20px);
+}
+
+.game-over {
+    text-align: center;
+
+    .new-game-btn {
+        margin: 20px 0;
+    }
+}
+
+.new-game-btn {
+    margin: 50px 0;
+}
