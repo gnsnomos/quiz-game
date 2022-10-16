@@ -27,7 +27,6 @@ import { AnswerComponent } from './answers/answer.component';
         AnswerComponent
     ],
     bootstrap: [],
-    exports: [QuestionsComponent],
-    entryComponents: [AnswerComponent]
+    exports: [QuestionsComponent]
 })
 export class QuizModule { }
