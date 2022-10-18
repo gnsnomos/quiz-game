@@ -38,7 +38,7 @@ export class QuestionsComponent implements OnInit {
         this.currentQuestionNumber++;
         if (this.currentQuestionNumber < this.questions.length) {
             this.currentQuestion = this.questions[this.currentQuestionNumber];
-            this.answers = [...this.currentQuestion.incorrect_answers, this.currentQuestion.correct_answer];
+            this.answers = this.shuffleAnswers();
         } else {
             this.gameOver();
         }
@@ -57,5 +57,13 @@ export class QuestionsComponent implements OnInit {
         this.currentQuestionNumber = -1;
         this.gameIsOver = false;
         this.userAnswers = [];
+    }
+
+    private shuffleAnswers(): string[] {
+        const unshuffledAnswers = [...this.currentQuestion.incorrect_answers, this.currentQuestion.correct_answer];
+        return unshuffledAnswers
+            .map(unshuffledAnswer => ({ order: Math.random(), answer: unshuffledAnswer }))
+            .sort((a, b) => a.order - b.order)
+            .map(shuffledAnswers => shuffledAnswers.answer);
     }
 }
