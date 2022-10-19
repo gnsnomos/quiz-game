@@ -1,0 +1,14 @@
+button {
+    border-style: solid;
+    &.highlight {
+        border-width: 2px;
+
+        &.green {
+            border-color: green;
+        }
+
+        &.red {
+            border-color: red;
+        }
+    }
+}

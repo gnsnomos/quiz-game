@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject, timer } from "rxjs";
 import { QuestionService } from '../service/question.service';
 import { Question } from '../service/questions.model';
 
@@ -16,6 +17,7 @@ export class QuestionsComponent implements OnInit {
     userAnswers: string[];
     gameIsOver = false;
     correctAnswers = 0;
+    hightlightAnswers$ = new BehaviorSubject<boolean>(false);
 
     constructor(private questionService: QuestionService) {
     }
@@ -31,7 +33,12 @@ export class QuestionsComponent implements OnInit {
 
     answerClicked(selectedAnswer: string): void {
         this.userAnswers.push(selectedAnswer);
-        this.nextQuestion();
+        this.hightlightAnswers$.next(true);
+
+        timer(1000).subscribe(() => {
+            this.nextQuestion();
+            this.hightlightAnswers$.next(false);
+        });
     }
 
     private nextQuestion(): void {
@@ -50,7 +57,8 @@ export class QuestionsComponent implements OnInit {
     }
 
     private countCorrectAnswers(): void {
-        this.correctAnswers = this.userAnswers.filter((userAnser: string, index: number) => this.questions[index].correct_answer === userAnser).length;
+        this.correctAnswers = this.userAnswers
+            .filter((userAnser: string, index: number) => this.questions[index].correct_answer === userAnser).length;
     }
 
     private resetGame(): void {

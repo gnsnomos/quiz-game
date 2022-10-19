@@ -9,7 +9,9 @@
         </div>
         <mat-grid-list cols="2" rowHeight="4:1">
             <mat-grid-tile *ngFor="let answer of answers">
-                <gs-answer [answer]="answer" (onAnswerClicked)="answerClicked($event)">
+                <gs-answer [answer]="answer" [hightlightAnswers]="hightlightAnswers$ | async"
+                    [isCorrectAnswer]="answer === currentQuestion.correct_answer"
+                    (onAnswerClicked)="answerClicked($event)">
                 </gs-answer>
             </mat-grid-tile>
         </mat-grid-list>
